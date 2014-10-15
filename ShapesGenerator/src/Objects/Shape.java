@@ -15,21 +15,21 @@ public class Shape extends AbstractShape implements Comparable<Shape> {
 	private Point centerPoint;
 	private LinkedList<Point> endPoints;
 	
-	public Shape(int aRotationSpeed, 
-				 int aRadiusLength, 
+	public Shape(int _rotationSpeed, 
+				 int _radiusLength, 
 				 boolean isRotating, 
-				 ShapeType aShapeType) {
+				 ShapeType _shapeType) {
 		
-		super(aRotationSpeed, aRadiusLength, isRotating, aShapeType);
+		super(_rotationSpeed, _radiusLength, isRotating, _shapeType);
 	}
 	
-	public Shape(int aRotationSpeed, 
-				 int aRadiusLength, 
+	public Shape(int _rotationSpeed, 
+				 int _radiusLength, 
 				 boolean isRotating, 
-				 ShapeType aShapeType, 
-				 Point aCenterPoint) {
+				 ShapeType _shapeType, 
+				 Point _centerPoint) {
 		
-		super(aRotationSpeed, aRadiusLength, isRotating, aShapeType);
+		super(_rotationSpeed, _radiusLength, isRotating, _shapeType);
 	}
 
 	public Point getCenterPoint(){ return centerPoint; } 
