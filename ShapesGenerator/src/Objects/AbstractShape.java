@@ -11,6 +11,13 @@ public abstract class AbstractShape {
 	private boolean rotate;
 	private ShapeType shapeType;
 	
+	/**
+	 * 
+	 * @param aRotationSpeed
+	 * @param aRadiusLength
+	 * @param isRotating
+	 * @param aShapeType
+	 */
 	public AbstractShape(int aRotationSpeed, int aRadiusLength, boolean isRotating, ShapeType aShapeType){
 		// not implemented yet for testing
 		throw new UnsupportedOperationException("not yet implemented");
