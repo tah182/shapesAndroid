@@ -10,15 +10,9 @@ public abstract class AbstractShape {
 	private int radiusLength;
 	private boolean rotate;
 	private ShapeType shapeType;
+	private LinearVector path;
 	
-	/**
-	 * 
-	 * @param aRotationSpeed
-	 * @param aRadiusLength
-	 * @param isRotating
-	 * @param aShapeType
-	 */
-	public AbstractShape(int aRotationSpeed, int aRadiusLength, boolean isRotating, ShapeType aShapeType){
+	public AbstractShape(int _rotationSpeed, int _radiusLength, boolean isRotating, ShapeType _shapeType){
 		// not implemented yet for testing
 		throw new UnsupportedOperationException("not yet implemented");
 	}
@@ -27,13 +21,14 @@ public abstract class AbstractShape {
 	public int getRadiusLength() { return radiusLength; }
 	public boolean isRotating() { return rotate; }
 	public ShapeType getShapeType() { return shapeType; } 
+	public LinearVector getPath(){ return path; }
 	
-	public void setRotationSpeed(int aRotationSpeed){
+	public void setRotationSpeed(int _rotationSpeed){
 		// not implemented yet for testing
 		throw new UnsupportedOperationException("not yet implemented");
 	}
 	
-	public void setRadiusLength(int aRadiusLength){
+	public void setRadiusLength(int _radiusLength){
 		// not implemented yet for testing
 		throw new UnsupportedOperationException("not yet implemented");
 	}
@@ -43,9 +38,14 @@ public abstract class AbstractShape {
 		throw new UnsupportedOperationException("not yet implemented");
 	}
 	
-	public void setShapeType(ShapeType aShapeType){
+	public void setShapeType(ShapeType _shapeType){
 		// not implemented yet for testing
 		throw new UnsupportedOperationException("not yet implemented");
+	}
+	
+	public void setPath(LinearVector _path){
+		// not implemented yet for testing
+		throw new UnsupportedOperationException("not yet implemented");		
 	}
 	
 	/*
