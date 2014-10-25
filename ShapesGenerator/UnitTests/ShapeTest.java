@@ -1,9 +1,19 @@
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Test;
+import org.junit.runner.*;
+import org.junit.runners.*;
+import org.junit.runners.Parameterized.*;
 
-
+@RunWith(Parameterized.class)
 public class ShapeTest {
+    @Parameters
+    public static Collection<Object[]> constructorParams() {
+        return Arrays.asList(new Object[][] { { 3, 1, 2 }, { 5, 2, 3 }, { 7, 3, 4 }, { 9, 4, 5 }, });
+    }
 
 	@Test
 	public void testRotate() {
