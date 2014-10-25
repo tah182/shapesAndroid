@@ -19,7 +19,7 @@ import com.example.shapesgenerator.BuildConfig;
 
 import android.graphics.Point;
 
-public class Shape extends AbstractShape implements Comparable<Shape> {
+public class Shape extends AbstractShape {
 	private Point centerPoint;
 	private LinkedList<Point> endPoints;
 	
@@ -98,10 +98,5 @@ public class Shape extends AbstractShape implements Comparable<Shape> {
 	@Override 
 	public boolean equals(Object o){
 		return false;
-	}
-
-	@Override
-	public int compareTo(Shape another) {
-		return 0;
 	}
 }
