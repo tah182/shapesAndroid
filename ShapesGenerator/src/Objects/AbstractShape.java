@@ -16,7 +16,10 @@ public abstract class AbstractShape {
 	public AbstractShape(final int _rotationSpeed, 
 						final int _radiusLength, 
 						final boolean _clockwiseRotation, 
-						final ShapeType _shapeType){
+						final ShapeType _shapeType) {
+		
+		if (_rotationSpeed > 100 || _rotationSpeed < 0)
+			throw new IndexOutOfBoundsException ("Rotation must be between 0 and 100");
 		
 		this.rotationSpeed = _rotationSpeed;
 		this.radiusLength = _radiusLength;
