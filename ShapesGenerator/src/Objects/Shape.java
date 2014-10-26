@@ -15,8 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import com.example.shapesgenerator.BuildConfig;
-
 import android.graphics.Point;
 
 public class Shape extends AbstractShape implements Comparable<Shape> {
