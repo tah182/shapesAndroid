@@ -13,8 +13,8 @@ public class LinearVector {
 	private double directionInDegrees;
 	
 	public LinearVector(int _dpiPerSecond, double _directionInDegrees){
-		// not implemented yet for testing
-		throw new UnsupportedOperationException("not yet implemented");
+		this.dpiPerSecond = _dpiPerSecond;
+		this.directionInDegrees = _directionInDegrees;
 	}
 	
 	public int getDpiPerSecond(){ return dpiPerSecond; }
@@ -23,7 +23,7 @@ public class LinearVector {
 	
 	public void createShapeEndPoints(Shape s){
 		//if the first end point doesn't exist, create one with zero initial slope
-		if(s.getEndPoints().length < 1){
+		if(s.getEndPoints().size() < 1){
 			int x, y;
 			x = s.getCenterPoint().x + s.getRadiusLength();
 			y = s.getCenterPoint().y;
@@ -35,8 +35,8 @@ public class LinearVector {
 		// create the angle increment based on number of points divided by 360
 		// all angles are converted to radians
 		double angle = Math.toRadians( 360.0 / s.getShapeType().getOuterPoints() );
-		double initialAngle = (1.0 * s.getEndPoints()[0].y - s.getCenterPoint().y) / 
-							  (1.0 * s.getEndPoints()[0].x - s.getCenterPoint().x);
+		double initialAngle = (1.0 * s.getEndPoints().get(0).y - s.getCenterPoint().y) / 
+							  (1.0 * s.getEndPoints().get(0).x - s.getCenterPoint().x);
 		
 		// initial angle is created from the slope between the center point and the initial endpoint
 		initialAngle = Math.atan(Math.toRadians(initialAngle));
@@ -52,5 +52,19 @@ public class LinearVector {
 			s.addEndPoint(nextEndPoint);
 		}
 		
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if(o == null){
+			return false;
+		} else if(o instanceof LinearVector){
+			LinearVector lv = (LinearVector) o;
+			
+			return this.getDirectionInDegrees() == lv.getDirectionInDegrees() &&
+				   this.getDpiPerSecond() == lv.getDpiPerSecond();
+		} else { 
+			return false;
+		}
 	}
 }

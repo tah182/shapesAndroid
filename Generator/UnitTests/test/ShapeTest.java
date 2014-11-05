@@ -69,7 +69,7 @@ public class ShapeTest extends TestSuite {
     	
     	assertEquals(rotationSpeedParam, testShape.getRotationSpeed());
     	assertEquals(radiusLengthParam, testShape.getRadiusLength());
-    	assertEquals(isRotatingParam, testShape.getRotation());
+    	assertEquals(isRotatingParam, testShape.isRotatingClockwise());
     	assertEquals(shapeTypeParam, testShape.getShapeType());
 	}
     

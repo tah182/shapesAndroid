@@ -17,11 +17,17 @@ import java.util.Random;
 
 import com.example.generator.BuildConfig;
 
+import android.R;
+import android.content.Context;
 import android.graphics.Point;
+import android.view.WindowManager;
 
 public class Shape extends AbstractShape {
 	private Point centerPoint;
-	private LinkedList<Point> endPoints;
+	private ArrayList<Point> endPoints;
+	
+	//TODO we need to add the max area width and max area height to the AbstractShape object
+	// this is need to validate changes to the center point and the end points of the object
 	
 	public Shape(int _rotationSpeed, 
 				 int _radiusLength, 
@@ -31,6 +37,20 @@ public class Shape extends AbstractShape {
 		
 		//TODO write generation of centerPoint randomly.
 		// must be within the bounds of the screen-radius;
+		// before we can generate a random point, we need to pass the screen a reference to the Display from the activity
+		/*
+			// From the activity, or the application state object:
+			android.view.Display activityArea = getWindowManager().getDefaultDisplay();
+			
+			Shape bob = new Shape(activityArea);
+			
+			// inside the default constructor for Shape
+			android.graphics.Rect screen = new android.graphics.Rect();
+			activityArea.getRectSize(screen);
+			
+			_centerPoint = new Point(getRandomInt(screen.width()), 
+									 getRandomInt(screen.height())); 
+		*/
 	}
 	
 	public Shape(int _rotationSpeed, 
@@ -41,6 +61,7 @@ public class Shape extends AbstractShape {
 		super(_rotationSpeed, _radiusLength, isRotating, _shapeType);
 		
 		this.centerPoint = _centerPoint;
+		this.endPoints = new ArrayList<Point>(20);
 	}
 	
 	public Shape() {
@@ -48,6 +69,8 @@ public class Shape extends AbstractShape {
 			 getRandomInt(100), 
 			 getRandomInt(10) % 2 == 0, 
 			 getRandomShapeType());
+		
+		this.endPoints = new ArrayList<Point>(20);
 	}
 	
 	/**
@@ -72,23 +95,21 @@ public class Shape extends AbstractShape {
 	}
 
 	public Point getCenterPoint()	{ return centerPoint; } 
-	public Point[] getEndPoints()	{ return (Point[])endPoints.toArray(); }
-	
+	public ArrayList<Point> getEndPoints()	{ return endPoints; }
 	
 	public void setCenterPoint(Point c) { 
-		
+		centerPoint = c;
 	}
 	
 	
 	public void addEndPoint(Point e) {
-		
+		endPoints.add(e);
 	}
 	
 	
 	public void removeEndPoint(Point e) { 
-		
+		endPoints.remove(e);
 	}
-	
 	
 	@Override
 	public void rotate() {
@@ -97,6 +118,41 @@ public class Shape extends AbstractShape {
 	
 	@Override 
 	public boolean equals(Object o){
-		return false;
+		if(o == null){
+			return false;
+		} else if(o instanceof Shape){
+			Shape s = (Shape) o;
+			
+			if(this.getPath() != null){ 
+			   if(s.getPath() == null){
+				   return false;
+			   } else if(!this.getPath().equals(s.getPath())){
+				   return false;
+			   }
+			}
+			
+			if(this.getCenterPoint().equals(s.getCenterPoint()) &&
+			   this.isRotatingClockwise() == s.isRotatingClockwise() &&
+			   this.getRadiusLength() == s.getRadiusLength() &&
+			   this.getRotationSpeed() == s.getRotationSpeed() &&
+			   this.getShapeType() == s.getShapeType() &&
+			   this.getEndPoints().size() == s.getEndPoints().size()){
+				
+				ArrayList<Point> endPoints = this.getEndPoints();
+				ArrayList<Point> otherEndPoints = s.getEndPoints();
+				
+				for(int i = 0; i < endPoints.size(); i++){
+					if(!endPoints.get(i).equals(otherEndPoints.get(i))){
+						return false;
+					}
+				}
+				
+				return true;
+			} else { 
+				return false;
+			}
+		} else { 
+			return false;	
+		}
 	}
 }

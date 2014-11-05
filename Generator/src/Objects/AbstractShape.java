@@ -22,11 +22,9 @@ public abstract class AbstractShape {
 		this.radiusLength = _radiusLength;
 		this.clockwiseRotation = _clockwiseRotation;
 		this.shapeType = _shapeType;
+		this.path = null;
 	}
 	
-	public boolean getRotation(){
-		return false;
-	}
 	public int getRotationSpeed() {
 		return rotationSpeed; 
 	}
@@ -43,27 +41,6 @@ public abstract class AbstractShape {
 		return path; 
 	}
 	
-	// Deprechated, these properties will be immutable
-//	public void setRotationSpeed(int _rotationSpeed){
-//		// not implemented yet for testing
-//		throw new UnsupportedOperationException("not yet implemented");
-//	}
-//	
-//	public void setRadiusLength(int _radiusLength){
-//		// not implemented yet for testing
-//		throw new UnsupportedOperationException("not yet implemented");
-//	}
-//	
-//	public void setRotation(boolean isRotating){
-//		// not implemented yet for testing
-//		throw new UnsupportedOperationException("not yet implemented");
-//	}
-//	
-//	public void setShapeType(ShapeType _shapeType){
-//		// not implemented yet for testing
-//		throw new UnsupportedOperationException("not yet implemented");
-//	}
-//	
 	public void setPath(LinearVector _path){
 		if(_path == null){
 			throw new NullPointerException("_path parameter cannot be null");
@@ -72,6 +49,30 @@ public abstract class AbstractShape {
 		}
 	}
 	
+/*	
+	 Deprechated, these properties will be immutable
+	public void setRotationSpeed(int _rotationSpeed){
+		// not implemented yet for testing
+		throw new UnsupportedOperationException("not yet implemented");
+	}
+	
+	public void setRadiusLength(int _radiusLength){
+		// not implemented yet for testing
+		throw new UnsupportedOperationException("not yet implemented");
+	}
+	
+	public void setRotation(boolean isRotating){
+		// not implemented yet for testing
+		throw new UnsupportedOperationException("not yet implemented");
+	}
+	
+	public void setShapeType(ShapeType _shapeType){
+		// not implemented yet for testing
+		throw new UnsupportedOperationException("not yet implemented");
+	}
+	
+*/
+
 	/**
 	 * Calculates new rotation points 
 	 */
