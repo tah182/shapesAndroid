@@ -15,6 +15,8 @@ import org.junit.runners.Parameterized.*;
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.AndroidTestRunner;
+import android.util.Log;
+import Objects.LinearVector;
 import Objects.Shape;
 import Objects.ShapeType;
 
@@ -25,6 +27,7 @@ public class ShapeTest extends TestCase {
 	private boolean isRotatingParam; 
 	private ShapeType shapeTypeParam;
 	private Point centerPointParam;
+	private Point testPointParam;
 	
 	public ShapeTest(){
 
@@ -34,10 +37,11 @@ public class ShapeTest extends TestCase {
 	public void setUp(){
 		// All parameters valid values
 		this.rotationSpeedParam = 1;
-		this.radiusLengthParam = 1;
+		this.radiusLengthParam = 5;
 		this.isRotatingParam = true; 
-		this.shapeTypeParam = ShapeType.SQUARE;
-		this.centerPointParam = new Point(1,1);
+		this.shapeTypeParam = ShapeType.HEXAGON;
+		this.centerPointParam = new Point(50,50);
+		this.testPointParam = new Point(2,2);
 		
 		// Negative rotation speed and radius length
 //		this.rotationSpeedParam = -1;
@@ -72,32 +76,37 @@ public class ShapeTest extends TestCase {
 	public void tearDown(){
 		
 	}	
+
+/* 
+ * old parameters from when we tried to run this as a parameterized junit test. 
+ * changed to a block comment so we can collapse
+ *  
+    @Parameters
+    public static Collection<Object[]> constructorParams() {
+        return Arrays.asList(
+			new Object[][] { 
+				
+				// All parameters valid values
+				{ 1, 1, true, ShapeType.SQUARE, new Point(0,0) },
+				
+				// Negative rotation speed and radius length
+				{ -1, -1, true, ShapeType.SQUARE, new Point(0,0) },
+				
+				// rotation speed and radius length out of bounds
+				{ 51, 101, true, ShapeType.SQUARE, new Point(0,0) },
+				
+				// null ShapeType and Point
+				{ 1, 1, true, null, null },
+				
+				// Negative Point location
+				{ 1, 1, true, ShapeType.SQUARE, new Point(0,0) }
 	
-//    @Parameters
-//    public static Collection<Object[]> constructorParams() {
-//        return Arrays.asList(
-//			new Object[][] { 
-//				
-//				// All parameters valid values
-//				{ 1, 1, true, ShapeType.SQUARE, new Point(0,0) },
-//				
-//				// Negative rotation speed and radius length
-//				{ -1, -1, true, ShapeType.SQUARE, new Point(0,0) },
-//				
-//				// rotation speed and radius length out of bounds
-//				{ 51, 101, true, ShapeType.SQUARE, new Point(0,0) },
-//				
-//				// null ShapeType and Point
-//				{ 1, 1, true, null, null },
-//				
-//				// Negative Point location
-//				{ 1, 1, true, ShapeType.SQUARE, new Point(0,0) }
-//	
-//			}
-//		);
-//    }
+			}
+		);
+    }
+*/
     
-    @Test
+    @Test // Test for the AbstractShape and Shape constructors
 	public void testAbstractShape() {
     	Shape testShape = new Shape(rotationSpeedParam, 
     								radiusLengthParam, 
@@ -109,57 +118,117 @@ public class ShapeTest extends TestCase {
     	assertEquals(radiusLengthParam, testShape.getRadiusLength());
     	assertEquals(isRotatingParam, testShape.isRotatingClockwise());
     	assertEquals(shapeTypeParam, testShape.getShapeType());
+    	assertEquals(centerPointParam, testShape.getCenterPoint());
 	}
     
-	@Test
+	@Test // need the activity and / or the application state object done first
 	public void testShapeConstructorRandomCenterpoint() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testShapeConstructorSetCenterpoint() {
-		fail("Not yet implemented");
+	public void testShapeSetCenterpoint() {
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+    	
+    	testShape.setCenterPoint(testPointParam);
+    	
+    	assertEquals(testPointParam, testShape.getCenterPoint());
 	}
 	
-	@Test
+	@Test // need the activity and / or the application state object done first
 	public void testShapeConstructorDefault() {
 		fail("Not yet implemented");
 	}
 	
 	@Test
-	public void testGetCenterPoint() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetEndPoints() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetCenterPoint() {
-		fail("Not yet implemented");
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+    	
+    	assertEquals(0, testShape.getEndPoints().size());
 	}
 
 	@Test
 	public void testAddEndPoint() {
-		fail("Not yet implemented");
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+    	
+    	testShape.addEndPoint(testPointParam);
+    	
+    	assertEquals(testPointParam, testShape.getEndPoints().get(0));
 	}
 
 	@Test
 	public void testRemoveEndPoint() {
-		fail("Not yet implemented");
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+    	
+    	testShape.addEndPoint(testPointParam);
+    	testShape.removeEndPoint(testPointParam);
+    	
+    	assertFalse(testShape.getEndPoints().contains(testPointParam));
 	}
 
 	@Test
 	public void testEqualsObject() {
-		fail("Not yet implemented");
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+    	
+    	Shape testShape2 = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+		
+		assertEquals(testShape, testShape2);
 	}
 
 	@Test
-	public void testRotate() {
-		fail("Not yet implemented");
+	public void testLinearVectorCreateShapeEndPoints() {
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+		
+    	String pointList = "";
+    	for(Point p : testShape.getEndPoints()){
+    		pointList += "[" + p.x + ", " + p.y + "], ";
+    	}
+    	
+    	//Log.d("ShapeTest", "End Points Before createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
+    	
+    	testShape.setPath(new LinearVector(20, 45));
+    	testShape.getPath().createShapeEndPoints(testShape);
+    	
+    	pointList = "";
+    	
+    	for(Point p : testShape.getEndPoints()){
+    		pointList += "[" + p.x + ", " + p.y + "], ";
+    	}
+    	
+    	Log.d("ShapeTest", "End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
+		
+		assertTrue(true);
 	}
 
 	//TODO figure out how to test the LinearVector path in AbstractShape
 }
+
+
