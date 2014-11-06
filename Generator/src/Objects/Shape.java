@@ -113,7 +113,12 @@ public class Shape extends AbstractShape {
 	
 	@Override
 	public void rotate() {
-
+		this.getPath().rotateShape(this);
+	}
+	
+	// Should we make this abstract too??
+	public void move() {
+		this.getPath().moveShape(this);
 	}
 	
 	@Override 

@@ -30,6 +30,12 @@ public class LinearVector {
 			
 			Point firstEndPoint = new Point(x,y);
 			s.addEndPoint(firstEndPoint);
+		} else { 
+			int originalSize = s.getEndPoints().size();
+			
+			for(int i = 1; i < originalSize; i++){
+				s.getEndPoints().remove(1);
+			}
 		}
 		
 		// create the angle increment based on number of points divided by 360
@@ -39,10 +45,10 @@ public class LinearVector {
 							  (1.0 * s.getEndPoints().get(0).x - s.getCenterPoint().x);
 		
 		// initial angle is created from the slope between the center point and the initial endpoint
-		initialAngle = Math.atan(Math.toRadians(initialAngle));
-		
+		initialAngle = Math.atan(initialAngle);
+
 		// loops through the remaining endpoints 
-		for(int i = 2; i <= s.getShapeType().getOuterPoints(); i++){
+		for(int i = 1; i < s.getShapeType().getOuterPoints(); i++){
 			double theta = angle * i + initialAngle;
 			
 			int y = (int)( Math.sin(theta) * s.getRadiusLength() ) + s.getCenterPoint().y;
@@ -51,7 +57,42 @@ public class LinearVector {
 			Point nextEndPoint = new Point(x,y);
 			s.addEndPoint(nextEndPoint);
 		}
+	}
+	
+	public void moveShape(Shape s){
+		Point newEndPoint;
+		Point newCenterPoint;
+		int x, y;
 		
+		double theta = Math.toRadians(directionInDegrees);
+		x = (int)( Math.cos(theta) * dpiPerSecond );
+		y = (int)( Math.sin(theta) * dpiPerSecond );
+		
+		s.setCenterPoint(new Point(x + s.getCenterPoint().x, 
+								   y + s.getCenterPoint().y)
+		);
+		
+		s.getEndPoints().set(0, new Point(x + s.getEndPoints().get(0).x, 
+									      y + s.getEndPoints().get(0).y)
+		);
+		
+		createShapeEndPoints(s);
+	}
+	
+	public void rotateShape(Shape s) {
+		double initialAngle = (1.0 * s.getEndPoints().get(0).y - s.getCenterPoint().y) / 
+				  			  (1.0 * s.getEndPoints().get(0).x - s.getCenterPoint().x);
+
+		initialAngle = Math.atan(initialAngle);
+		initialAngle += ( s.isRotatingClockwise() ? Math.toRadians(s.getRotationSpeed()) : 
+													-1 * Math.toRadians(s.getRotationSpeed()));
+		
+		int y = (int)( Math.sin(initialAngle) * s.getRadiusLength() ) + s.getCenterPoint().y;
+		int x = (int)( Math.cos(initialAngle) * s.getRadiusLength() ) + s.getCenterPoint().x;
+		
+		s.getEndPoints().set(0, new Point(x,y));
+		
+		createShapeEndPoints(s);
 	}
 	
 	@Override
