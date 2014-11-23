@@ -18,6 +18,12 @@ public abstract class AbstractShape {
 						final boolean _clockwiseRotation, 
 						final ShapeType _shapeType){
 		
+		if(_rotationSpeed < 1){
+			throw new IllegalArgumentException("rotationSpeed must be greater than zero");
+		} else if(_radiusLength < 0){
+			throw new IllegalArgumentException("radiusLength must be greater than zero");
+		}
+		
 		this.rotationSpeed = _rotationSpeed;
 		this.radiusLength = _radiusLength;
 		this.clockwiseRotation = _clockwiseRotation;

@@ -13,6 +13,12 @@ public class LinearVector {
 	private double directionInDegrees;
 	
 	public LinearVector(int _dpiPerSecond, double _directionInDegrees){
+		if(_dpiPerSecond < 0) {
+			throw new IllegalArgumentException("dpiPerSecond must be greater than zero");
+		} else if(_directionInDegrees < 0){
+			throw new IllegalArgumentException("directionInDegrees must be greater than zero");
+		}
+		
 		this.dpiPerSecond = _dpiPerSecond;
 		this.directionInDegrees = _directionInDegrees;
 	}
@@ -60,6 +66,12 @@ public class LinearVector {
 	}
 	
 	public void moveShape(Shape s){
+		if(s.getEndPoints().size() < 1) { 
+			throw new IllegalStateException("The shape does not have any endpoints");			
+		} else if(s.getEndPoints().size() != s.getShapeType().getOuterPoints()){
+			throw new IllegalStateException("The shape doesn't have the correct number of endpoints for it's ShapeType");
+		}
+		
 		Point newEndPoint;
 		Point newCenterPoint;
 		int x, y;
@@ -80,6 +92,12 @@ public class LinearVector {
 	}
 	
 	public void rotateShape(Shape s) {
+		if(s.getEndPoints().size() < 1) { 
+			throw new IllegalStateException("The shape does not have any endpoints");			
+		} else if(s.getEndPoints().size() != s.getShapeType().getOuterPoints()){
+			throw new IllegalStateException("The shape doesn't have the correct number of endpoints for it's ShapeType");
+		}
+		
 		double initialAngle = (1.0 * s.getEndPoints().get(0).y - s.getCenterPoint().y) / 
 				  			  (1.0 * s.getEndPoints().get(0).x - s.getCenterPoint().x);
 
