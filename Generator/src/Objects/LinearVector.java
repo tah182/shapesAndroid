@@ -6,9 +6,13 @@
  */
 package Objects;
 
+import java.util.ArrayList;
+
 import android.graphics.Point;
 
 public class LinearVector {
+	private final int MAX_X = 500, MAX_Y = 500;
+	
 	private int dpiPerSecond;
 	private double directionInDegrees;
 	
@@ -111,6 +115,28 @@ public class LinearVector {
 		);
 		
 		createShapeEndPoints(s);
+		
+		ArrayList<Point> ep = s.getEndPoints();
+		boolean reflectX = false;
+		boolean reflectY = false;
+		
+		for(Point p : ep){
+			if(p.x <= 0 || p.x >= MAX_X) { 
+				reflectX = true; 
+				break;
+			} else if ( p.y <= 0 || p.y >= MAX_Y) { 
+				reflectY = true;
+				break;
+			}
+		}
+		
+		if(reflectX){
+			reflectAngleOnX();
+			moveShape(s);
+		} else if (reflectY){
+			reflectAngleOnY();
+			moveShape(s);
+		}
 	}
 	
 	public void rotateShape(Shape s) {
