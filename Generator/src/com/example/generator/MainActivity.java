@@ -19,7 +19,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+										.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
@@ -53,9 +53,13 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
-			return rootView;
+//			View rootView = inflater.inflate(R.layout.fragment_main, container,
+//					false);
+//			return rootView;
+			
+			AnimatedShapesView view = new AnimatedShapesView(this.getActivity());
+			
+			return view;
 		}
 	}
 }
