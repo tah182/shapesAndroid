@@ -22,7 +22,7 @@ public abstract class AbstractShape {
 			throw new IllegalArgumentException("rotationSpeed must be greater than zero");
 		} else if(_radiusLength < 0){
 			throw new IllegalArgumentException("radiusLength must be greater than zero");
-		}
+		} 
 		
 		this.rotationSpeed = _rotationSpeed;
 		this.radiusLength = _radiusLength;

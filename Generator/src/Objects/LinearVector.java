@@ -27,6 +27,28 @@ public class LinearVector {
 	
 	public double getDirectionInDegrees(){ return directionInDegrees; } 
 	
+	public void reflectAngleOnX(){
+		if(directionInDegrees <= 90){
+			directionInDegrees = 360 - directionInDegrees;
+		} else if(directionInDegrees < 180) { 
+			directionInDegrees = 180 + (180 - directionInDegrees);
+		} else if(directionInDegrees <= 270) {
+			directionInDegrees = 180 - (directionInDegrees - 180);
+		} else {
+			directionInDegrees = 360 - directionInDegrees;
+		}
+	}
+	
+	public void reflectAngleOnY(){
+		if(directionInDegrees <= 180){
+			directionInDegrees = 180 - directionInDegrees;
+		} else if(directionInDegrees <= 270) {
+			directionInDegrees = 360 - (directionInDegrees - 180);
+		} else {
+			directionInDegrees = 180 + (360 - directionInDegrees);
+		}
+	}
+	
 	public void createShapeEndPoints(Shape s){
 		//if the first end point doesn't exist, create one with zero initial slope
 		if(s.getEndPoints().size() < 1){

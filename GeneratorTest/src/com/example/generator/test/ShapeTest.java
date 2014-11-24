@@ -42,34 +42,6 @@ public class ShapeTest extends TestCase {
 		this.shapeTypeParam = ShapeType.HEXAGON;
 		this.centerPointParam = new Point(50,50);
 		this.testPointParam = new Point(2,2);
-		
-		// Negative rotation speed and radius length
-//		this.rotationSpeedParam = -1;
-//		this.radiusLengthParam = -1;
-//		this.isRotatingParam = true; 
-//		this.shapeTypeParam = ShapeType.SQUARE;
-//		this.centerPointParam = new Point(1,1);
-//		
-		// rotation speed and radius length out of bounds
-//		this.rotationSpeedParam = 51;
-//		this.radiusLengthParam = 101;
-//		this.isRotatingParam = true; 
-//		this.shapeTypeParam = ShapeType.SQUARE;
-//		this.centerPointParam = new Point(1,1);
-//		
-		// null ShapeType and Point
-//		this.rotationSpeedParam = 1;
-//		this.radiusLengthParam = 1;
-//		this.isRotatingParam = true; 
-//		this.shapeTypeParam = null;
-//		this.centerPointParam = null;
-//		
-		// Negative Point location
-//		this.rotationSpeedParam = 1;
-//		this.radiusLengthParam = 1;
-//		this.isRotatingParam = true; 
-//		this.shapeTypeParam = ShapeType.SQUARE;
-//		this.centerPointParam = new Point(-1,-1);
 	}
 	
 	@Override 
@@ -208,22 +180,15 @@ public class ShapeTest extends TestCase {
 									centerPointParam);
 		
     	String pointList = "";
-    	for(Point p : testShape.getEndPoints()){
-    		pointList += "[" + p.x + ", " + p.y + "], ";
-    	}
-    	
-    	//Log.d("ShapeTest", "End Points Before createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
     	
     	testShape.setPath(new LinearVector(20, 45.0));
     	testShape.getPath().createShapeEndPoints(testShape);
     	
-    	pointList = "";
-    	
     	for(Point p : testShape.getEndPoints()){
     		pointList += "[" + p.x + ", " + p.y + "], ";
     	}
     	
-    	//Log.d("ShapeTest", "testLinearVectorCreateShapeEndPoints: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
+    	Log.d("ShapeTest", "testLinearVectorCreateShapeEndPoints: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
 		
 		assertTrue(true);
 	}
@@ -237,31 +202,17 @@ public class ShapeTest extends TestCase {
 				centerPointParam);
 
 		String pointList = "";
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";	
-		}
-		
-		//Log.d("ShapeTest", "End Points Before createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
 		
 		testShape.setPath(new LinearVector(20, 45.0));
 		testShape.getPath().createShapeEndPoints(testShape);
 		
-		pointList = "";
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		//Log.d("ShapeTest", "testMoveShape: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-		
-		pointList = "";
 		testShape.move();
 		
 		for(Point p : testShape.getEndPoints()){
 			pointList += "[" + p.x + ", " + p.y + "], ";
 		}
 		
-		//Log.d("ShapeTest", "testMoveShape: End Points After move(): " + pointList.substring(0, pointList.length() - 2));
+		Log.d("ShapeTest", "testMoveShape: End Points After move(): " + pointList.substring(0, pointList.length() - 2));
 		
 		assertTrue(true);
 	}
@@ -279,15 +230,6 @@ public class ShapeTest extends TestCase {
 		testShape.setPath(new LinearVector(20, 45.0));
 		testShape.getPath().createShapeEndPoints(testShape);
 		
-		pointList = "";
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		Log.d("ShapeTest", "testRotateShape: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-		
-		pointList = "";
 		testShape.rotate();
 		
 		for(Point p : testShape.getEndPoints()){

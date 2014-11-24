@@ -41,6 +41,22 @@ public class LinearVectorTest extends TestCase {
 	//valid endpoints after LinearVector.rotateShape()
 	private ArrayList<Point> validAfterRotate = new ArrayList<Point>(10);
 	
+	//angles for reflection
+	private double q1;
+	private double q2;
+	private double q3;
+	private double q4;
+	
+	private double q1XResult;
+	private double q2XResult;
+	private double q3XResult;
+	private double q4XResult;
+	
+	private double q1YResult;
+	private double q2YResult;
+	private double q3YResult;
+	private double q4YResult;
+	
 	public LinearVectorTest(){
 
 	}
@@ -85,6 +101,24 @@ public class LinearVectorTest extends TestCase {
 		this.validAfterRotate.add(new Point(41, 48));
 		this.validAfterRotate.add(new Point(47, 41));
 		this.validAfterRotate.add(new Point(56, 43));
+		
+		// Starting angles before reflectAngleOnX() and reflectAngleOnY()
+		q1 = 27.0;
+		q2 = 107.0;
+		q3 = 207.0;
+		q4 = 297.0;
+		
+		// Valid angles after reflectAngleOnX()
+		q1XResult = 333.0;
+		q2XResult = 253.0;
+		q3XResult = 153.0;
+		q4XResult = 63.0;
+		
+		// Valid angles after reflectAngleOnY()
+		q1YResult = 153.0;
+		q2YResult = 73.0;
+		q3YResult = 333.0;
+		q4YResult = 243.0;
 	}
 	
 	@Override 
@@ -182,6 +216,72 @@ public class LinearVectorTest extends TestCase {
 			fail("IllegalStateException should not have been thrown");
 		}
 	
+	}
+	
+	@Test
+	public void testReflectAngleOnX(){
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+
+    	// Starting angle in 1st quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q1));
+    	testShape.getPath().reflectAngleOnX();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q1XResult);
+    	
+    	// Starting angle in 2nd quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q2));
+    	testShape.getPath().reflectAngleOnX();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q2XResult);
+    	
+    	// Starting angle in 3rd quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q3));
+    	testShape.getPath().reflectAngleOnX();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q3XResult);
+    	
+    	// Starting angle in 4th quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q4));
+    	testShape.getPath().reflectAngleOnX();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q4XResult);
+	}
+	
+	@Test
+	public void testReflectAngleOnY(){
+    	Shape testShape = new Shape(rotationSpeedParam, 
+				radiusLengthParam, 
+				isRotatingParam, 
+				shapeTypeParam, 
+				centerPointParam);
+
+    	// Starting angle in 1st quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q1));
+    	testShape.getPath().reflectAngleOnY();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q1YResult);
+    	
+    	// Starting angle in 2nd quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q2));
+    	testShape.getPath().reflectAngleOnY();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q2YResult);
+    	
+    	// Starting angle in 3rd quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q3));
+    	testShape.getPath().reflectAngleOnY();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q3YResult);
+    	
+    	// Starting angle in 4th quadrant 
+    	testShape.setPath(new LinearVector(validDpiPerSecond, q4));
+    	testShape.getPath().reflectAngleOnY();
+    	
+    	assertEquals(testShape.getPath().getDirectionInDegrees(), q4YResult);
 	}
 }
 

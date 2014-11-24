@@ -28,7 +28,10 @@ public class ShapeTestBadObjects extends TestCase {
 	private boolean isRotatingParam; 
 	private ShapeType shapeTypeParam;
 	private Point centerPointParam;
-	private Point testPointParam;
+	private ShapeType shapeTypeGood;
+	private Point centerPointGood;
+	private Point goodPointParam;
+	private Point badPointParam;
 	
 	public ShapeTestBadObjects(){
 
@@ -42,7 +45,10 @@ public class ShapeTestBadObjects extends TestCase {
 		this.isRotatingParam = true; 
 		this.shapeTypeParam = null;
 		this.centerPointParam = null;
-		this.testPointParam = new Point(2,2);
+		this.shapeTypeGood = ShapeType.HEXAGON;
+		this.centerPointGood = new Point(10,10);;
+		this.goodPointParam = new Point(2,2);
+		this.badPointParam = null;
 		
 		// Negative Point location
 //		this.rotationSpeedParam = 1;
@@ -59,17 +65,17 @@ public class ShapeTestBadObjects extends TestCase {
     
     @Test // Test for the AbstractShape and Shape constructors
 	public void testAbstractShape() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-    								radiusLengthParam, 
-    								isRotatingParam, 
-    								shapeTypeParam, 
-    								centerPointParam);
-    	
-    	assertEquals(rotationSpeedParam, testShape.getRotationSpeed());
-    	assertEquals(radiusLengthParam, testShape.getRadiusLength());
-    	assertEquals(isRotatingParam, testShape.isRotatingClockwise());
-    	assertEquals(shapeTypeParam, testShape.getShapeType());
-    	assertEquals(centerPointParam, testShape.getCenterPoint());
+    	try{
+	    	Shape testShape = new Shape(rotationSpeedParam, 
+	    								radiusLengthParam, 
+	    								isRotatingParam, 
+	    								shapeTypeParam, 
+	    								centerPointParam);
+	    	
+	    	fail("IllegalArgumentException should have been throw, but wasn't");
+    	} catch(IllegalArgumentException iae){
+    		//success
+    	}
 	}
     
 	@Test // need the activity and / or the application state object done first
@@ -79,15 +85,20 @@ public class ShapeTestBadObjects extends TestCase {
 
 	@Test
 	public void testShapeSetCenterpoint() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
+		try{
+	    	Shape testShape = new Shape(rotationSpeedParam, 
+										radiusLengthParam, 
+										isRotatingParam, 
+										shapeTypeGood, 
+										centerPointGood);
+	    	
+	    	testShape.setCenterPoint(badPointParam);
+	    	
+	    	fail("IllegalArgumentException should have been throw, but wasn't");
+		} catch(IllegalArgumentException iae) { 
+			// success
+		}
     	
-    	testShape.setCenterPoint(testPointParam);
-    	
-    	assertEquals(testPointParam, testShape.getCenterPoint());
 	}
 	
 	@Test // need the activity and / or the application state object done first
@@ -95,159 +106,38 @@ public class ShapeTestBadObjects extends TestCase {
 		fail("Not yet implemented");
 	}
 	
-	@Test
-	public void testGetEndPoints() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
-    	
-    	assertEquals(0, testShape.getEndPoints().size());
-	}
 
 	@Test
 	public void testAddEndPoint() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
-    	
-    	testShape.addEndPoint(testPointParam);
-    	
-    	assertEquals(testPointParam, testShape.getEndPoints().get(0));
+		try {
+	    	Shape testShape = new Shape(rotationSpeedParam, 
+										radiusLengthParam, 
+										isRotatingParam, 
+										shapeTypeGood, 
+										centerPointGood);
+	    	
+	    	testShape.addEndPoint(badPointParam);
+	    	
+	    	fail("IllegalArgumentException should have been thrown, but wasn't");
+		} catch (IllegalArgumentException iae){
+			//success
+		}
 	}
 
 	@Test
 	public void testRemoveEndPoint() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
-    	
-    	testShape.addEndPoint(testPointParam);
-    	testShape.removeEndPoint(testPointParam);
-    	
-    	assertFalse(testShape.getEndPoints().contains(testPointParam));
-	}
-
-	@Test
-	public void testEqualsObject() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
-    	
-    	Shape testShape2 = new Shape(rotationSpeedParam, 
-									 radiusLengthParam, 
-									 isRotatingParam, 
-									 shapeTypeParam, 
-									 centerPointParam);
-		
-		assertEquals(testShape, testShape2);
-	}
-
-	@Test
-	public void testLinearVectorCreateShapeEndPoints() {
-    	Shape testShape = new Shape(rotationSpeedParam, 
-									radiusLengthParam, 
-									isRotatingParam, 
-									shapeTypeParam, 
-									centerPointParam);
-		
-    	String pointList = "";
-    	for(Point p : testShape.getEndPoints()){
-    		pointList += "[" + p.x + ", " + p.y + "], ";
-    	}
-    	
-    	//Log.d("ShapeTest", "End Points Before createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-    	
-    	testShape.setPath(new LinearVector(20, 45.0));
-    	testShape.getPath().createShapeEndPoints(testShape);
-    	
-    	pointList = "";
-    	
-    	for(Point p : testShape.getEndPoints()){
-    		pointList += "[" + p.x + ", " + p.y + "], ";
-    	}
-    	
-    	//Log.d("ShapeTest", "testLinearVectorCreateShapeEndPoints: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-		
-		assertTrue(true);
-	}
-	
-	@Test
-	public void testMoveShape() { 
-    	Shape testShape = new Shape(rotationSpeedParam, 
-				radiusLengthParam, 
-				isRotatingParam, 
-				shapeTypeParam, 
-				centerPointParam);
-
-		String pointList = "";
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";	
+		try{ 
+	    	Shape testShape = new Shape(rotationSpeedParam, 
+										radiusLengthParam, 
+										isRotatingParam, 
+										shapeTypeGood, 
+										centerPointGood);
+	    	
+	    	testShape.addEndPoint(goodPointParam);
+	    	testShape.removeEndPoint(badPointParam);
+		} catch (IllegalArgumentException iae) { 
+			// success
 		}
-		
-		//Log.d("ShapeTest", "End Points Before createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-		
-		testShape.setPath(new LinearVector(20, 45.0));
-		testShape.getPath().createShapeEndPoints(testShape);
-		
-		pointList = "";
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		//Log.d("ShapeTest", "testMoveShape: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-
-		pointList = "";
-		testShape.move();
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		//Log.d("ShapeTest", "testMoveShape: End Points After move(): " + pointList.substring(0, pointList.length() - 2));
-		
-		assertTrue(true);
-	}
-	
-	@Test
-	public void testRotateShape() { 
-    	Shape testShape = new Shape(rotationSpeedParam, 
-				radiusLengthParam, 
-				isRotatingParam, 
-				shapeTypeParam, 
-				centerPointParam);
-
-		String pointList = "";
-		
-		testShape.setPath(new LinearVector(20, 45.0));
-		testShape.getPath().createShapeEndPoints(testShape);
-		
-		pointList = "";
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		Log.d("ShapeTest", "testRotateShape: End Points After createShapeEndPoints(): " + pointList.substring(0, pointList.length() - 2));
-		
-		pointList = "";
-		testShape.rotate();
-		
-		for(Point p : testShape.getEndPoints()){
-			pointList += "[" + p.x + ", " + p.y + "], ";
-		}
-		
-		Log.d("ShapeTest", "testRotateShape: End Points After rotate(): " + pointList.substring(0, pointList.length() - 2));
-		
-		assertTrue(true);
 	}
 }
 

@@ -35,6 +35,10 @@ public class Shape extends AbstractShape {
 				 ShapeType _shapeType) {
 		super(_rotationSpeed, _radiusLength, isRotating, _shapeType);
 		
+		if(_shapeType == null) { 
+			throw new IllegalArgumentException("shapeType cannot be null");
+		}
+		
 		//TODO write generation of centerPoint randomly.
 		// must be within the bounds of the screen-radius;
 		// before we can generate a random point, we need to pass the screen a reference to the Display from the activity
@@ -59,6 +63,12 @@ public class Shape extends AbstractShape {
 				 ShapeType _shapeType, 
 				 Point _centerPoint) {
 		super(_rotationSpeed, _radiusLength, isRotating, _shapeType);
+		
+		if(_shapeType == null) { 
+			throw new IllegalArgumentException("shapeType cannot be null");
+		} else if(_centerPoint == null){ 
+			throw new IllegalArgumentException("centerPoint cannot be null");
+		}
 		
 		this.centerPoint = _centerPoint;
 		this.endPoints = new ArrayList<Point>(20);
@@ -97,17 +107,29 @@ public class Shape extends AbstractShape {
 	public Point getCenterPoint()	{ return centerPoint; } 
 	public ArrayList<Point> getEndPoints()	{ return endPoints; }
 	
-	public void setCenterPoint(Point c) { 
+	public void setCenterPoint(Point c) {
+		if(c == null){
+			throw new IllegalArgumentException("Point c cannot be null");
+		}
+		
 		centerPoint = c;
 	}
 	
 	
 	public void addEndPoint(Point e) {
+		if(e == null) { 
+			throw new IllegalArgumentException("Point e cannot be null");
+		}
+		
 		endPoints.add(e);
 	}
 	
 	
 	public void removeEndPoint(Point e) { 
+		if(e == null) { 
+			throw new IllegalArgumentException("Point e cannot be null");
+		}
+		
 		endPoints.remove(e);
 	}
 	
