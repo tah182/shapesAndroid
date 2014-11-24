@@ -7,29 +7,42 @@ import Objects.Shape;
 import Objects.ShapeType;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
 public class AnimatedShapesView extends View {
 	private Paint paint = new Paint();
+	private Shape s;
 	
 	public AnimatedShapesView(Context context) {
 		super(context);
 		
+		s = new Shape(47, 300, true, ShapeType.HEXAGON, new Point(750, 1000));
+		s.setPath(new LinearVector(13, 45));
+    	s.getPath().createShapeEndPoints(s);
 	}
 
     @Override
     public void onDraw(Canvas canvas) {
-    	paint.setColor(Color.BLUE);
+    	paint.setARGB(240, 50, 208, 50);
     	
-    	Shape s = new Shape(30, 50, true, ShapeType.HEXAGON, new Point(1000, 1000));
+    	// used for testing endpoints
+    	String pointList = "";
     	
-    	s.setPath(new LinearVector(10, 45));
-    	s.getPath().createShapeEndPoints(s);
+    	s.rotate();
+    	
+    	pointList = "";
+    	for(Point p : s.getEndPoints()){
+    		pointList += "[" + p.x + ", " + p.y + "], ";
+    	}
+    	
+    	Log.i("ShapeTest", "End Points After rotateShape(): " + pointList.substring(0, pointList.length() - 2));
     	
     	Path p = new Path();
     	

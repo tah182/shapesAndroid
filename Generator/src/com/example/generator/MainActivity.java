@@ -1,9 +1,13 @@
 package com.example.generator;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,20 +50,38 @@ public class MainActivity extends ActionBarActivity {
 	 * A placeholder fragment containing a simple view.
 	 */
 	public static class PlaceholderFragment extends Fragment {
+		AnimatedShapesView view;
 
+		final Handler myHandler = new Handler();
+	   
+		final Runnable myRunnable = new Runnable() {
+			public void run() {
+				view.invalidate();
+			}
+		};
+		
 		public PlaceholderFragment() {
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-//			View rootView = inflater.inflate(R.layout.fragment_main, container,
-//					false);
-//			return rootView;
+		public View onCreateView(LayoutInflater inflater, 
+								 ViewGroup container,
+								 Bundle savedInstanceState) {
 			
-			AnimatedShapesView view = new AnimatedShapesView(this.getActivity());
+			view = new AnimatedShapesView(this.getActivity());
+			
+			Timer myTimer = new Timer();
+		    myTimer.schedule(new TimerTask() {
+		         @Override
+		         public void run() { UpdateGUI(); }
+	        }, 0, 1000);
 			
 			return view;
 		}
+		
+	   private void UpdateGUI() {
+	      myHandler.post(myRunnable);
+	   }
+
 	}
 }

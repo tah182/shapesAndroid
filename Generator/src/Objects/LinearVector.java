@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import android.graphics.Point;
 
 public class LinearVector {
-	private final int MAX_X = 500, MAX_Y = 500;
+	private final int MAX_X = 1500, MAX_Y = 1500;
 	
 	private int dpiPerSecond;
 	private double directionInDegrees;
