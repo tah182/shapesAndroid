@@ -9,6 +9,7 @@ package Objects;
 import java.util.ArrayList;
 
 import android.graphics.Point;
+import android.util.Log;
 
 public class LinearVector {
 	private final int MAX_X = 1500, MAX_Y = 1500;
@@ -73,16 +74,28 @@ public class LinearVector {
 		// create the angle increment based on number of points divided by 360
 		// all angles are converted to radians
 		double angle = Math.toRadians( 360.0 / s.getShapeType().getOuterPoints() );
+		int rise = s.getEndPoints().get(0).y - s.getCenterPoint().y;
+		int run = s.getEndPoints().get(0).x - s.getCenterPoint().x;
+		
 		double initialAngle = (1.0 * s.getEndPoints().get(0).y - s.getCenterPoint().y) / 
 							  (1.0 * s.getEndPoints().get(0).x - s.getCenterPoint().x);
 		
 		// initial angle is created from the slope between the center point and the initial endpoint
 		initialAngle = Math.atan(initialAngle);
+		
+		// adjusts the initial angle to the outside angle if the inside angle is in the 2nd - 4th quadrant
+		if(run < 0 && rise >= 0){
+			initialAngle = Math.PI - Math.abs(initialAngle);
+		} else if (run < 0 && rise < 0) {
+			initialAngle = (3 * Math.PI / 2) - Math.abs(initialAngle);
+		} else if (run >= 0 && rise < 0) { 
+			initialAngle = (2 * Math.PI) - Math.abs(initialAngle);
+		}
 
 		// loops through the remaining endpoints 
 		for(int i = 1; i < s.getShapeType().getOuterPoints(); i++){
 			double theta = angle * i + initialAngle;
-			
+
 			int y = (int)( Math.sin(theta) * s.getRadiusLength() ) + s.getCenterPoint().y;
 			int x = (int)( Math.cos(theta) * s.getRadiusLength() ) + s.getCenterPoint().x;
 			

@@ -19,6 +19,7 @@ import android.graphics.Point;
 public class AnimatedShapesView extends View {
 	private Paint paint = new Paint();
 	private Shape s;
+	private Path p = new Path();
 	
 	public AnimatedShapesView(Context context) {
 		super(context);
@@ -26,10 +27,18 @@ public class AnimatedShapesView extends View {
 		s = new Shape(47, 300, true, ShapeType.HEXAGON, new Point(750, 1000));
 		s.setPath(new LinearVector(13, 45));
     	s.getPath().createShapeEndPoints(s);
+    	
+    	
+	}
+	
+	private void initPath(){
+		p = new Path();
 	}
 
     @Override
     public void onDraw(Canvas canvas) {
+    	super.onDraw(canvas);
+    	
     	paint.setARGB(240, 50, 208, 50);
     	
     	// used for testing endpoints
@@ -42,11 +51,11 @@ public class AnimatedShapesView extends View {
     		pointList += "[" + p.x + ", " + p.y + "], ";
     	}
     	
-    	Log.i("ShapeTest", "End Points After rotateShape(): " + pointList.substring(0, pointList.length() - 2));
-    	
-    	Path p = new Path();
+    	//Log.i("ShapeTest", "End Points After rotateShape(): " + pointList.substring(0, pointList.length() - 2));
     	
     	ArrayList<Point> points = s.getEndPoints();
+    	
+    	initPath();
     	
     	for(int i = 0; i < points.size(); i++){
     		if(i == 0) { 
