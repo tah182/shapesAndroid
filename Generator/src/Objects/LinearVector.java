@@ -14,6 +14,8 @@ import android.util.Log;
 public class LinearVector {
 	private final int MAX_X = 1500, MAX_Y = 1500;
 	
+	private ReflectionStatus currentStatus = ReflectionStatus.NONE;
+	
 	private int dpiPerSecond;
 	private double directionInDegrees;
 	
@@ -32,7 +34,9 @@ public class LinearVector {
 	
 	public double getDirectionInDegrees(){ return directionInDegrees; } 
 	
-	public void reflectAngleOnX(){
+	public void reflectAngleOnY(){
+		currentStatus = ReflectionStatus.VERTICAL;
+		
 		if(directionInDegrees <= 90){
 			directionInDegrees = 360 - directionInDegrees;
 		} else if(directionInDegrees < 180) { 
@@ -44,7 +48,9 @@ public class LinearVector {
 		}
 	}
 	
-	public void reflectAngleOnY(){
+	public void reflectAngleOnX(){
+		currentStatus = ReflectionStatus.HORIZONTAL;
+		
 		if(directionInDegrees <= 180){
 			directionInDegrees = 180 - directionInDegrees;
 		} else if(directionInDegrees <= 270) {
@@ -104,6 +110,50 @@ public class LinearVector {
 		}
 	}
 	
+	public boolean validateBounds(Shape s){
+		ArrayList<Point> ep = s.getEndPoints();
+
+		int xDistance = 0, yDistance = 0;
+		
+		for(Point p : ep){
+			int xTempD= 0, yTempD = 0;
+			
+			if(p.x <= 0) { 
+				xTempD = Math.abs(p.x);
+			} else if (p.x >= MAX_X) {
+				xTempD = p.x - MAX_X;
+			}
+			
+			xDistance = xDistance < xTempD ? xTempD : xDistance;
+			
+			if (p.y <= 0) { 
+				yTempD = Math.abs(p.y);
+			} else if (p.y >= MAX_Y) {
+				yTempD = p.y - MAX_Y;
+			}
+			
+			yDistance = yDistance < yTempD ? yTempD : yDistance;
+		}
+		
+		if(xDistance > 0 || yDistance > 0){
+			if(xDistance > yDistance){ 
+				if(currentStatus != ReflectionStatus.HORIZONTAL){
+					reflectAngleOnX();
+				}
+			} else { 
+				if(currentStatus != ReflectionStatus.VERTICAL){
+					reflectAngleOnY();
+				}
+			}
+			
+			return false;
+		}
+		
+		currentStatus = ReflectionStatus.NONE;
+		
+		return true;
+	}
+	
 	public void moveShape(Shape s){
 		if(s.getEndPoints().size() < 1) { 
 			throw new IllegalStateException("The shape does not have any endpoints");			
@@ -117,7 +167,7 @@ public class LinearVector {
 		
 		double theta = Math.toRadians(directionInDegrees);
 		x = (int)( Math.cos(theta) * dpiPerSecond );
-		y = (int)( Math.sin(theta) * dpiPerSecond );
+		y = (int)( Math.sin(theta) * dpiPerSecond ) * -1;
 		
 		s.setCenterPoint(new Point(x + s.getCenterPoint().x, 
 								   y + s.getCenterPoint().y)
@@ -129,25 +179,7 @@ public class LinearVector {
 		
 		createShapeEndPoints(s);
 		
-		ArrayList<Point> ep = s.getEndPoints();
-		boolean reflectX = false;
-		boolean reflectY = false;
-		
-		for(Point p : ep){
-			if(p.x <= 0 || p.x >= MAX_X) { 
-				reflectX = true; 
-				break;
-			} else if ( p.y <= 0 || p.y >= MAX_Y) { 
-				reflectY = true;
-				break;
-			}
-		}
-		
-		if(reflectX){
-			reflectAngleOnX();
-			moveShape(s);
-		} else if (reflectY){
-			reflectAngleOnY();
+		if(!validateBounds(s)){			
 			moveShape(s);
 		}
 	}

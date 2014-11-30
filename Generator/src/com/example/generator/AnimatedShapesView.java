@@ -25,9 +25,8 @@ public class AnimatedShapesView extends View {
 		super(context);
 		
 		s = new Shape(47, 300, true, ShapeType.HEXAGON, new Point(750, 1000));
-		s.setPath(new LinearVector(13, 45));
+		s.setPath(new LinearVector(13, 25));
     	s.getPath().createShapeEndPoints(s);
-    	
     	
 	}
 	
@@ -45,6 +44,7 @@ public class AnimatedShapesView extends View {
     	String pointList = "";
     	
     	s.rotate();
+    	s.move();
     	
     	pointList = "";
     	for(Point p : s.getEndPoints()){
