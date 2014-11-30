@@ -12,7 +12,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 public class LinearVector {
-	private final int MAX_X = 1500, MAX_Y = 1500;
+	private final int MAX_X, MAX_Y;
 	
 	private ReflectionStatus currentStatus = ReflectionStatus.NONE;
 	
@@ -28,6 +28,21 @@ public class LinearVector {
 		
 		this.dpiPerSecond = _dpiPerSecond;
 		this.directionInDegrees = _directionInDegrees;
+		this.MAX_X = 1000;
+		this.MAX_Y = 1000;
+	}
+	
+	public LinearVector(int _dpiPerSecond, double _directionInDegrees, int _maxX, int _maxY){
+		if(_dpiPerSecond < 0) {
+			throw new IllegalArgumentException("dpiPerSecond must be greater than zero");
+		} else if(_directionInDegrees < 0){
+			throw new IllegalArgumentException("directionInDegrees must be greater than zero");
+		}
+		
+		this.dpiPerSecond = _dpiPerSecond;
+		this.directionInDegrees = _directionInDegrees;
+		this.MAX_X = _maxX;
+		this.MAX_Y = _maxY;
 	}
 	
 	public int getDpiPerSecond(){ return dpiPerSecond; }

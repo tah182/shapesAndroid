@@ -13,6 +13,8 @@ public abstract class AbstractShape {
 	
 	private LinearVector path;
 	
+	private static int screenWidth = 750, screenHeight = 1000;
+	
 	public AbstractShape(final int _rotationSpeed, 
 						final int _radiusLength, 
 						final boolean _clockwiseRotation, 
@@ -54,34 +56,33 @@ public abstract class AbstractShape {
 			this.path = _path;
 		}
 	}
-	
-/*	
-	 Deprechated, these properties will be immutable
-	public void setRotationSpeed(int _rotationSpeed){
-		// not implemented yet for testing
-		throw new UnsupportedOperationException("not yet implemented");
-	}
-	
-	public void setRadiusLength(int _radiusLength){
-		// not implemented yet for testing
-		throw new UnsupportedOperationException("not yet implemented");
-	}
-	
-	public void setRotation(boolean isRotating){
-		// not implemented yet for testing
-		throw new UnsupportedOperationException("not yet implemented");
-	}
-	
-	public void setShapeType(ShapeType _shapeType){
-		// not implemented yet for testing
-		throw new UnsupportedOperationException("not yet implemented");
-	}
-	
-*/
 
 	/**
 	 * Calculates new rotation points 
 	 */
 	public abstract void rotate();	
+
+	public static void setScreenWidth(int _screenWidth){
+		if(_screenWidth < 1){
+			throw new IllegalArgumentException("screenWidth must be greater than zero");
+		}
+		
+		screenWidth = _screenWidth;
+	}
 	
+	public static void setScreenHeight(int _screenHeight){
+		if(_screenHeight < 1){
+			throw new IllegalArgumentException("screenWidth must be greater than zero");
+		}
+		
+		screenHeight = _screenHeight;
+	}
+	
+	public static int getScreenWidth(){
+		return screenWidth;
+	}
+	
+	public static int getScreenHeight(){
+		return screenHeight;
+	}
 }

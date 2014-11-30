@@ -37,7 +37,10 @@ public class Shape extends AbstractShape {
 		
 		if(_shapeType == null) { 
 			throw new IllegalArgumentException("shapeType cannot be null");
-		}
+		} 
+		
+		this.centerPoint = getRandomCenterPoint(_radiusLength);
+		this.endPoints = new ArrayList<Point>(20);
 		
 		//TODO write generation of centerPoint randomly.
 		// must be within the bounds of the screen-radius;
@@ -90,7 +93,22 @@ public class Shape extends AbstractShape {
 	 */
 	private static int getRandomInt(int upperBound) {
 		Random r = new Random();
-		return r.nextInt() * upperBound;
+		return r.nextInt(upperBound);
+	}
+	
+	private static Point getRandomCenterPoint(int radiusLength){
+		Point cp = new Point(getRandomInt(Shape.getScreenWidth() - radiusLength), 
+				   			 getRandomInt(Shape.getScreenHeight() - radiusLength));
+		
+		while(cp.x  < radiusLength) { 
+			cp.set(getRandomInt(Shape.getScreenWidth() - radiusLength), cp.y);
+		}
+		
+		while(cp.y  < radiusLength) { 
+			cp.set(cp.x,  getRandomInt(Shape.getScreenHeight() - radiusLength));
+		}
+		
+		return cp;
 	}
 	
 	private static ShapeType getRandomShapeType() {

@@ -74,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 		    myTimer.schedule(new TimerTask() {
 		         @Override
 		         public void run() { UpdateGUI(); }
-	        }, 0, 75);
+	        }, 0, 25);
 			
 			return view;
 		}
