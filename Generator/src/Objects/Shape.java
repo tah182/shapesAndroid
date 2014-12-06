@@ -91,7 +91,8 @@ public class Shape extends AbstractShape {
 	 * @param upperBound the upperBound of the random int
 	 * @return the random number generated
 	 */
-	private static int getRandomInt(int upperBound) {
+	public static int getRandomInt(int upperBound) {
+		upperBound++;
 		Random r = new Random();
 		return r.nextInt(upperBound);
 	}

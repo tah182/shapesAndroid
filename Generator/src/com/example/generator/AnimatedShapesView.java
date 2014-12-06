@@ -1,5 +1,6 @@
 package com.example.generator;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.ArrayList;
 
 import Objects.LinearVector;
@@ -12,9 +13,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -26,20 +29,24 @@ import android.app.*;
 
 public class AnimatedShapesView extends View {
 	private Paint paint = new Paint();
-	private Shape s;
 	private Path p = new Path();
+	private ConcurrentLinkedQueue<Shape> shapeQueue = new ConcurrentLinkedQueue<Shape>();
+	private Context contextReference;
+	
+	private final int RADIUS_LENGTH = 100;
+	private final int ROTATION_SPEED = 8;
+	private final int DPI_PER_SECOND = 30;
+	private final int MAX_SHAPES_DISPLAYED = 10;
 	
 	public AnimatedShapesView(Context context) {
 		super(context);
+		
+		this.setOnTouchListener(touchHandler);
 		
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		
 		Shape.setScreenWidth(metrics.widthPixels);
 		Shape.setScreenHeight(metrics.heightPixels);
-		
-		s = new Shape(5, 100, true, ShapeType.HEXAGON);
-		s.setPath(new LinearVector(25, 25, Shape.getScreenWidth(), Shape.getScreenHeight()));
-    	s.getPath().createShapeEndPoints(s);
 	}
 	
 	private void initPath(){
@@ -52,18 +59,17 @@ public class AnimatedShapesView extends View {
     	
     	paint.setARGB(240, 50, 208, 50);
     	
-    	// used for testing endpoints
-    	String pointList = "";
-    	
-    	s.rotate();
-    	s.move();
-    	
-    	pointList = "";
-    	for(Point p : s.getEndPoints()){
-    		pointList += "[" + p.x + ", " + p.y + "], ";
+    	for(Shape s : shapeQueue){
+    		drawShape(canvas, s);
+    	}
+    }
+    
+    private void drawShape(Canvas canvas, Shape s){
+    	if(s.getShapeType() != ShapeType.CIRCLE){
+    		s.rotate();
     	}
     	
-    	//Log.i("ShapeTest", "End Points After rotateShape(): " + pointList.substring(0, pointList.length() - 2));
+    	s.move();
     	
     	ArrayList<Point> points = s.getEndPoints();
     	
@@ -79,4 +85,34 @@ public class AnimatedShapesView extends View {
     	
     	canvas.drawPath(p, paint);
     }
+
+    private final OnTouchListener touchHandler = new OnTouchListener(){ 
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			ShapeType st = ShapeType.getRandomShapeType();
+			Point p = new Point((int)(event.getXPrecision() * event.getX()),  
+								(int)(event.getYPrecision() * event.getY()));
+			
+			Shape s = new Shape(ROTATION_SPEED, 
+								RADIUS_LENGTH,
+								true,
+								st,
+								p);
+
+			s.setPath(new LinearVector(DPI_PER_SECOND, 
+									   Shape.getRandomInt(360), 
+									   Shape.getScreenWidth(), 
+									   Shape.getScreenHeight()));
+			
+	    	s.getPath().createShapeEndPoints(s);
+			
+			if(shapeQueue.size() >= MAX_SHAPES_DISPLAYED){
+				shapeQueue.remove();
+			}
+			
+			shapeQueue.add(s);
+			
+			return false;
+		}
+    };
 }

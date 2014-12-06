@@ -55,4 +55,25 @@ public enum ShapeType {
 	public final int getInnerPoints() {
 		return this.innerPoints;
 	}
+	
+	public static final ShapeType getRandomShapeType(){
+		int a = Shape.getRandomInt(6);
+		
+		switch(a){
+		case 1:
+			return ShapeType.CIRCLE;
+		case 2: 
+			return ShapeType.HEXAGON;
+		case 3: 
+			return ShapeType.OCTAGON;
+		case 4:
+			return ShapeType.PENTAGON;
+		case 5:
+			return ShapeType.SQUARE;
+		case 6:
+			return ShapeType.TRIANGLE;
+		default:
+			return ShapeType.HEXAGON;
+		}
+	}
 }
